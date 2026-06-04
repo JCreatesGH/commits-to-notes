@@ -1,0 +1,14 @@
+{
+  "name": "commits-to-notes",
+  "version": "0.1.0",
+  "description": "Turn Conventional Commits into grouped, linked release notes with contributor credits.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": { "commits-to-notes": "dist/cli.js" },
+  "scripts": { "test": "vitest run", "build": "tsc -p tsconfig.json" },
+  "keywords": ["changelog", "release-notes", "conventional-commits", "git", "semver"],
+  "author": "Joshua John <josh202@gmail.com>",
+  "license": "MIT",
+  "devDependencies": { "vitest": "^4.0.0", "typescript": "^5.4.0", "@types/node": "^20.0.0" }
+}

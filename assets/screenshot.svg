@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420" font-family="system-ui,Segoe UI,Helvetica,sans-serif">
+  <rect width="800" height="420" fill="#0d1117"/>
+  <text x="24" y="36" font-size="18" font-weight="800" fill="#e6edf3">commits-to-notes</text>
+  <!-- left git log -->
+  <rect x="20" y="52" width="360" height="330" rx="10" fill="#161b22" stroke="#30363d"/>
+  <text x="34" y="76" font-size="11.5" fill="#7d8590" font-family="SFMono-Regular,monospace">$ git log --pretty='%h\t%an\t%s'</text>
+  <text font-size="11" font-family="SFMono-Regular,monospace" xml:space="preserve">
+    <tspan x="34" y="104" fill="#f0883e">h1 </tspan><tspan fill="#7d8590">Ada   </tspan><tspan fill="#c9d1d9">feat(api): add pagination (#42)</tspan>
+    <tspan x="34" y="124" fill="#f0883e">h2 </tspan><tspan fill="#7d8590">Grace </tspan><tspan fill="#c9d1d9">fix(ui): button focus ring</tspan>
+    <tspan x="34" y="144" fill="#f0883e">h3 </tspan><tspan fill="#7d8590">Ada   </tspan><tspan fill="#c9d1d9">feat!: new auth flow</tspan>
+    <tspan x="34" y="164" fill="#f0883e">h4 </tspan><tspan fill="#7d8590">Linus </tspan><tspan fill="#c9d1d9">perf: cache lookups</tspan>
+    <tspan x="34" y="184" fill="#f0883e">h5 </tspan><tspan fill="#7d8590">Linus </tspan><tspan fill="#c9d1d9">chore: bump deps</tspan>
+    <tspan x="34" y="204" fill="#6c7086">Merge branch 'main'  </tspan><tspan fill="#6c7086">(ignored)</tspan>
+  </text>
+  <text x="390" y="220" font-size="20" fill="#30363d">→</text>
+  <!-- right rendered md -->
+  <rect x="408" y="52" width="372" height="330" rx="10" fill="#0b0e14"/>
+  <text font-size="11.5" xml:space="preserve">
+    <tspan x="424" y="78" fill="#e6edf3" font-weight="700" font-size="14">v1.2.0 (2026-06-04)</tspan>
+    <tspan x="424" y="104" fill="#f85149" font-weight="700">⚠️ BREAKING CHANGES</tspan>
+    <tspan x="424" y="122" fill="#c9d1d9">• new auth flow</tspan>
+    <tspan x="424" y="148" fill="#3fb950" font-weight="700">🚀 Features</tspan>
+    <tspan x="424" y="166" fill="#c9d1d9">• </tspan><tspan fill="#e6edf3">api:</tspan><tspan fill="#c9d1d9"> add pagination (</tspan><tspan fill="#58a6ff">#42</tspan><tspan fill="#c9d1d9">)</tspan>
+    <tspan x="424" y="184" fill="#c9d1d9">• new auth flow</tspan>
+    <tspan x="424" y="210" fill="#fb8500" font-weight="700">🐛 Bug Fixes</tspan>
+    <tspan x="424" y="228" fill="#c9d1d9">• </tspan><tspan fill="#e6edf3">ui:</tspan><tspan fill="#c9d1d9"> button focus ring</tspan>
+    <tspan x="424" y="254" fill="#d29922" font-weight="700">⚡ Performance</tspan>
+    <tspan x="424" y="272" fill="#c9d1d9">• cache lookups</tspan>
+    <tspan x="424" y="298" fill="#a371f7" font-weight="700">👥 Contributors</tspan>
+    <tspan x="424" y="316" fill="#c9d1d9">• Ada  • Grace  • Linus</tspan>
+  </text>
+  <text x="24" y="406" font-size="12.5" fill="#3fb950" font-family="SFMono-Regular,monospace">✓ 6 tests · breaking-change detection (! and footer) · PR/commit links · dedup contributors</text>
+</svg>
