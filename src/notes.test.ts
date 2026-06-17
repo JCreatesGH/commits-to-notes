@@ -57,4 +57,28 @@ describe("renderNotes", () => {
     // Ada appears once despite two commits
     expect((section.match(/- Ada/g) || []).length).toBe(1);
   });
+
+  it("keeps unrecognized commit types under Other Changes (no data loss)", () => {
+    const md = renderNotes(parseLog([
+      "feat: a thing",
+      "wip: scratch work",          // not a standard section type
+      "deploy: ship it",            // custom type
+    ].join("\n")));
+    expect(md).toContain("### 📌 Other Changes");
+    expect(md).toContain("scratch work");
+    expect(md).toContain("ship it");
+  });
+
+  it("renders style and revert sections", () => {
+    const md = renderNotes(parseLog("style: reformat\nrevert: undo that"));
+    expect(md).toContain("### 💄 Styles");
+    expect(md).toContain("### ⏪ Reverts");
+  });
+
+  it("adds a Full Changelog compare link when given a previous version", () => {
+    const md = renderNotes(parseLog("feat: x"), {
+      version: "v1.2.0", previousVersion: "v1.1.0", repoUrl: "https://github.com/u/r",
+    });
+    expect(md).toContain("**Full Changelog**: https://github.com/u/r/compare/v1.1.0...v1.2.0");
+  });
 });
