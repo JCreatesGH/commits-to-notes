@@ -1,7 +1,7 @@
 {
   "name": "commits-to-notes",
-  "version": "0.1.0",
-  "description": "Turn Conventional Commits into grouped, linked release notes with contributor credits.",
+  "version": "0.2.0",
+  "description": "Turn Conventional Commits into grouped, linked release notes — and recommend the next semver bump.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
