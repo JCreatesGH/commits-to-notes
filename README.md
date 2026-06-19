@@ -53,6 +53,17 @@ const md = renderNotes(commits, {
 
 - **Parses** `type(scope)!: subject (#pr)` plus `BREAKING CHANGE:` footers; reads `hash` and `author` from a tab-separated `git log`.
 - **Groups** into Features / Fixes / Performance / Refactors / Docs / Styles / Tests / Build / CI / Reverts / Chores, with **breaking changes pulled to the top**. Unrecognized types land in an **Other Changes** section, so nothing is ever silently dropped.
+- **Groups by scope** (monorepos) — pass `--group-by-scope` (or `groupByScope: true`) to cluster each section's commits under their scope as a nested list (scopes alphabetical, scopeless commits flat):
+
+  ```markdown
+  ### 🚀 Features
+  - **api**
+    - add endpoint
+    - add pagination
+  - **ui**
+    - new button
+  - top-level thing
+  ```
 - **Links** to PRs and commits when you pass a `repoUrl`, and adds a GitHub **Full Changelog** compare link when you also pass `previousVersion`.
 - **Credits** every unique contributor, sorted.
 - **Recommends the next version** — `recommendBump`/`nextVersion` (and the `--bump`/`--next`/`auto` CLI modes) derive the SemVer bump from the commits.
@@ -61,7 +72,7 @@ const md = renderNotes(commits, {
 ## Development
 
 ```bash
-npm install && npm test    # 18 tests
+npm install && npm test    # 20 tests
 npm run build              # tsc, clean
 ```
 

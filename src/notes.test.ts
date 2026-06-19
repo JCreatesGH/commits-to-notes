@@ -81,4 +81,25 @@ describe("renderNotes", () => {
     });
     expect(md).toContain("**Full Changelog**: https://github.com/u/r/compare/v1.1.0...v1.2.0");
   });
+
+  it("groups commits by scope within a section when groupByScope is on", () => {
+    const scoped = parseLog([
+      "feat(api): add endpoint",
+      "feat(api): add pagination",
+      "feat(ui): new button",
+      "feat: top-level thing",          // no scope
+    ].join("\n"));
+    const md = renderNotes(scoped, { groupByScope: true });
+    expect(md).toContain("- **api**\n  - add endpoint\n  - add pagination");
+    expect(md).toContain("- **ui**\n  - new button");
+    expect(md).toContain("- top-level thing");        // scopeless stays a flat bullet
+    // scopes are alphabetical (api before ui)
+    expect(md.indexOf("**api**")).toBeLessThan(md.indexOf("**ui**"));
+  });
+
+  it("default (flat) rendering is unchanged", () => {
+    const md = renderNotes(parseLog("feat(api): add endpoint"));
+    expect(md).toContain("- **api:** add endpoint");   // inline scope prefix, no nesting
+    expect(md).not.toContain("- **api**\n");
+  });
 });

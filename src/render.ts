@@ -21,6 +21,7 @@ export interface NotesOptions {
   date?: string;
   repoUrl?: string;          // e.g. https://github.com/u/r  (enables PR/commit links)
   previousVersion?: string;  // enables a "Full Changelog" compare link (needs repoUrl + version)
+  groupByScope?: boolean;    // within each section, cluster commits under their scope (monorepos)
 }
 
 function link(c: Commit, repoUrl?: string): string {
@@ -35,15 +36,31 @@ function line(c: Commit, repoUrl?: string): string {
   return `- ${scope}${c.subject}${link(c, repoUrl)}`;
 }
 
+/** Render a section's commits — flat, or (with `groupByScope`) clustered under each scope
+ *  as a nested list, with scopeless commits as flat bullets after the scoped groups. */
+function renderItems(group: Commit[], repoUrl: string | undefined, groupByScope: boolean): string[] {
+  if (!groupByScope) return group.map((c) => line(c, repoUrl));
+  const lines: string[] = [];
+  const scopes = [...new Set(group.filter((c) => c.scope).map((c) => c.scope as string))].sort();
+  for (const s of scopes) {
+    lines.push(`- **${s}**`);
+    for (const c of group.filter((c) => c.scope === s)) lines.push(`  - ${c.subject}${link(c, repoUrl)}`);
+  }
+  for (const c of group.filter((c) => !c.scope)) lines.push(`- ${c.subject}${link(c, repoUrl)}`);
+  return lines;
+}
+
 export function renderNotes(commits: Commit[], opts: NotesOptions = {}): string {
   const out: string[] = [];
   const header = opts.version ? `## ${opts.version}` : "## Release notes";
   out.push(opts.date ? `${header} (${opts.date})` : header, "");
 
+  const gbs = !!opts.groupByScope;
+
   const breaking = commits.filter((c) => c.breaking);
   if (breaking.length) {
     out.push("### ⚠️ BREAKING CHANGES", "");
-    for (const c of breaking) out.push(line(c, opts.repoUrl));
+    out.push(...renderItems(breaking, opts.repoUrl, gbs));
     out.push("");
   }
 
@@ -51,7 +68,7 @@ export function renderNotes(commits: Commit[], opts: NotesOptions = {}): string 
     const group = commits.filter((c) => c.type === type);
     if (!group.length) continue;
     out.push(`### ${title}`, "");
-    for (const c of group) out.push(line(c, opts.repoUrl));
+    out.push(...renderItems(group, opts.repoUrl, gbs));
     out.push("");
   }
 
@@ -59,7 +76,7 @@ export function renderNotes(commits: Commit[], opts: NotesOptions = {}): string 
   const other = commits.filter((c) => !KNOWN_TYPES.has(c.type));
   if (other.length) {
     out.push("### 📌 Other Changes", "");
-    for (const c of other) out.push(line(c, opts.repoUrl));
+    out.push(...renderItems(other, opts.repoUrl, gbs));
     out.push("");
   }
 

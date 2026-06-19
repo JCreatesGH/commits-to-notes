@@ -15,11 +15,15 @@ Usage (pipe a git log on stdin):
   commits-to-notes --bump                                  # print just the bump: major|minor|patch
   commits-to-notes --next v1.0.0                           # print just the next version
 
-  -h, --help   show this help`;
+  --group-by-scope   cluster commits under their scope within each section (monorepos)
+  -h, --help         show this help`;
 
 /** Pure core: given argv and the piped git log, return an exit code + output. */
 export function run(args: string[], stdin: string, today: string): { code: number; output: string } {
   if (args.includes("-h") || args.includes("--help")) return { code: 0, output: HELP };
+
+  const groupByScope = args.includes("--group-by-scope");
+  args = args.filter((a) => a !== "--group-by-scope");   // strip the flag from positionals
 
   const commits = parseLog(stdin);
 
@@ -45,7 +49,7 @@ export function run(args: string[], stdin: string, today: string): { code: numbe
       return { code: 2, output: `Error: ${(e as Error).message}` };
     }
   }
-  return { code: 0, output: renderNotes(commits, { version, date: today, repoUrl, previousVersion }) };
+  return { code: 0, output: renderNotes(commits, { version, date: today, repoUrl, previousVersion, groupByScope }) };
 }
 
 // Execute only as the CLI binary (not when imported by tests).
